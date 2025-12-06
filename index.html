@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>挑战视频页面 · Movement People</title>
+    <title>Day 1 挑战 · Movement People</title>
     <!-- 字体引入 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,6 +290,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .btn::before {
@@ -339,6 +340,25 @@
         .footer-note strong {
             color: var(--light-green);
             font-weight: 700;
+        }
+
+        /* 导航链接样式 */
+        .home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: var(--light-green);
+            transform: translateX(-5px);
+        }
+
+        .home-link i {
+            margin-right: 8px;
         }
 
         /* 动画定义 */
@@ -450,6 +470,8 @@
             }
         }
     </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- 星空背景容器 -->
@@ -461,10 +483,15 @@
 
     <!-- 主容器 -->
     <div class="container">
+        <!-- 返回主页链接（顶部） -->
+        <a href="https://johnchen-spc.github.io/14-days-challenge-Movement-people/" class="home-link" onclick="goHome(event)">
+            <i class="fas fa-arrow-left"></i> 返回14天挑战主页
+        </a>
+
         <!-- 页面头部 -->
         <div class="header">
-            <h1 class="page-title">Movement People 挑战视频</h1>
-            <p class="page-subtitle">开启你的蜕变之旅，每一次行动都在塑造全新的自己</p>
+            <h1 class="page-title">Day 1 · 行动开启</h1>
+            <p class="page-subtitle">身体激活 × 心智觉醒 × 落地行动</p>
         </div>
 
         <!-- 视频核心区域 -->
@@ -555,8 +582,8 @@
 
         <!-- 操作按钮 -->
         <div class="action-buttons">
-            <a href="#" class="btn">开始挑战 ✅</a>
-            <a href="https://johnchen-spc.github.io/14-days-challenge-Movement-people/" class="btn btn-secondary">返回主页 ←</a>
+            <a href="#" class="btn" onclick="completeDay1(event)">完成挑战 ✅</a>
+            <a href="#" class="btn btn-secondary" onclick="goHome(event)">返回主页 ←</a>
         </div>
 
         <!-- 底部说明 -->
@@ -617,6 +644,33 @@
             }, 8000);
         }
 
+        // 统一的返回主页函数
+        function goHome(event) {
+            // 阻止默认行为
+            if (event) event.preventDefault();
+            // 强制跳转
+            window.location.href = 'https://johnchen-spc.github.io/14-days-challenge-Movement-people/';
+            // 备用方案：新开窗口
+            // window.open('https://johnchen-spc.github.io/14-days-challenge-Movement-people/', '_self');
+        }
+
+        // 完成挑战按钮逻辑
+        function completeDay1(event) {
+            event.preventDefault();
+            
+            const btn = event.currentTarget;
+            btn.style.transform = 'translateY(-2px) scale(0.98)';
+            
+            // 存储打卡状态
+            localStorage.setItem('day1Completed', 'true');
+            
+            setTimeout(() => {
+                alert('🎉 Day 1 挑战打卡成功！\n进度已记录，返回主页可查看');
+                // 完成挑战后也跳转到主页
+                goHome();
+            }, 300);
+        }
+
         // 页面加载时生成星空
         window.onload = function() {
             createStarryBackground();
@@ -624,6 +678,11 @@
             // 视频加载优化
             const videoIframe = document.querySelector('.video-container iframe');
             videoIframe.src = videoIframe.src; // 强制刷新确保加载
+
+            // 额外保障：给所有返回按钮绑定事件
+            document.querySelectorAll('.home-link, .btn-secondary').forEach(el => {
+                el.addEventListener('click', goHome);
+            });
         };
     </script>
 </body>
